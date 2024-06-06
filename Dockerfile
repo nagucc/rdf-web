@@ -8,7 +8,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # 安装项目依赖
-RUN npm install
+RUN npm i tyarn -g
+RUN tyarn install
 
 # 将项目中的所有文件复制到工作目录
 COPY . .
