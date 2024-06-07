@@ -44,5 +44,5 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: |
-          nagucc/triples-api:latest
-          nagucc/triples-api:${{ steps.package-version.outputs.version }}
+          nagucc/rdf-web:latest
+          nagucc/rdf-web:${{ steps.package-version.outputs.version }}
