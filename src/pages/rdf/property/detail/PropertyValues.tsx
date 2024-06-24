@@ -1,20 +1,18 @@
 import {
   ActionType,
   ModalForm,
-  // PageContainer,
   ProColumns,
   ProFormInstance,
   ProFormText,
   ProTable,
 } from '@ant-design/pro-components';
-import { Card, Space, Input, Typography, Button, message, Flex, Modal } from 'antd';
-import { useEffect, useRef, useState, type FC } from 'react';
-import { history, useParams, useRequest } from '@umijs/max';
-import { Prefix, Resource, Triple } from '@/api';
-import { RDFS, replacePrefixWithIRI } from '@/utils';
+import { Button, Modal, message } from 'antd';
+import { useRef, useState, type FC } from 'react';
+import { history } from '@umijs/max';
+import {  Triple } from '@/api';
+import { replacePrefixWithIRI } from '@/utils';
 import { ITriple } from 'nagu-triples-types';
-import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, PlusOutlined } from '@ant-design/icons';
-// const { Title } = Typography;
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 
 type PropertyValueItem = {
   subject: string,
@@ -26,17 +24,10 @@ type PropertyValuesProps = {
   prefixTriples: ITriple[],
 }
 const PropertyValues: FC<PropertyValuesProps> = (props) => {
-  // const qs = useParams();
-  // const [isResourceClass, setIsResourceClass] = useState(false); // 当前资源是否是rdfs:Class
   const [open, setOpen] = useState(false); // 编辑Modal
   const [modalLoading, setModalLoading] = useState(false); // Modal的loading状态
-  // const [createMode, setCreateMode] = useState(true); // Modal是否是创建新资源模式
-  // const [textIRI, setTextIRI] = useState('');
-  // const [textIsDefinedBy, setTextIsDefinedBy] = useState('');
   const modalForm = useRef<ProFormInstance>()
 
-  // const createTriple = 
-  // const removePropertyValue = 
   const actionRef = useRef<ActionType>();
   const columns: ProColumns<ITriple>[] = [
     {
@@ -92,13 +83,6 @@ const PropertyValues: FC<PropertyValuesProps> = (props) => {
             success: true,
           }
         }}
-        // columnsState={{
-        //   persistenceKey: 'pro-table-singe-demos',
-        //   persistenceType: 'localStorage',
-        //   defaultValue: {
-        //     option: { fixed: 'right', disable: true },
-        //   },
-        // }}
         rowKey="id"
         search={{
           labelWidth: 'auto',
