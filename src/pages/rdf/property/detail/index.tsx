@@ -1,34 +1,26 @@
 import {
-  ModalForm,
   PageContainer,
-  ProFormInstance,
-  ProFormText,
 } from '@ant-design/pro-components';
-import { Card, Space, Input, Typography, Button, message, Flex } from 'antd';
-import { useEffect, useRef, useState, type FC } from 'react';
-import { history, useParams, useRequest } from '@umijs/max';
+import { Space } from 'antd';
+import { useEffect, useState, type FC } from 'react';
+import { useParams, useRequest } from '@umijs/max';
 import { Prefix, Resource } from '@/api';
-import { RDFS, replacePrefixWithIRI } from '@/utils';
+import { RDFS } from '@/utils';
 import { ITriple } from 'nagu-triples-types';
-import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import SearchCard from './SearchCard';
 import PropertyValues from './PropertyValues';
-// const { Title } = Typography;
 
 const BasicForm: FC<Record<string, any>> = () => {
   const qs = useParams();
-  const [isResourceClass, setIsResourceClass] = useState(false); // 当前资源是否是rdfs:Class
-  const [open, setOpen] = useState(false); // 编辑Modal
-  const [createMode, setCreateMode] = useState(true); // Modal是否是创建新资源模式
-  // const [textIRI, setTextIRI] = useState('');
-  // const [textIsDefinedBy, setTextIsDefinedBy] = useState('');
+  const [, setIsResourceClass] = useState(false); // 当前资源是否是rdfs:Class
+  const [, setOpen] = useState(false); // 编辑Modal
+  const [, setCreateMode] = useState(true); // Modal是否是创建新资源模式
   const [pvss, setPvss] = useState({});
-  // const modalForm = useRef<ProFormInstance>()
 
 
   // 获取资源属性值
   const { data: pvs, run: getPvs, loading: loadingPvs } = useRequest((piri:string) => {
-    return Resource.getPropertyValues(qs.iri, piri);
+    return Resource.getPropertyValues(qs.iri || '', piri);
   }, {
     manual: true,
   });

@@ -9,7 +9,7 @@ import {
 import { Button, Modal, message } from 'antd';
 import { useRef, useState, type FC } from 'react';
 import { history } from '@umijs/max';
-import {  Triple } from '@/api';
+import {  Resource, Triple } from '@/api';
 import { replacePrefixWithIRI } from '@/utils';
 import { ITriple } from 'nagu-triples-types';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
@@ -29,15 +29,15 @@ const PropertyValues: FC<PropertyValuesProps> = (props) => {
   const modalForm = useRef<ProFormInstance>()
 
   const actionRef = useRef<ActionType>();
-  const columns: ProColumns<ITriple>[] = [
+  const columns: ProColumns<any>[] = [
     {
       title: 'Subject',
-      render:(_, triple) => {
+      render: (_, triple) => {
         return (
         <Button type='link' onClick={() => {
           history.push(`/rdf/resource/${encodeURIComponent}`);
         }}>
-          {triple.subject.name}
+          {triple.subject.label || triple.subject.name}
         </Button>
       )}
     },
@@ -71,13 +71,23 @@ const PropertyValues: FC<PropertyValuesProps> = (props) => {
   ];
   return (
     <>
-      <ProTable<PropertyValueItem>
+      <ProTable<ITriple>
         columns={columns}
         actionRef={actionRef}
         cardBordered
         request={async (params, sort, filter) => {
           console.log(filter)
           const { data } = await Triple.listByP(props.iri);
+          const getRes = async (t: ITriple) => {
+            const res = await Resource.get(t.subject.name);
+            t.subject = {
+              ...t.subject,
+              ...res.data,
+            }
+          }
+          await Promise.all(data.map(t => {
+            return getRes(t);
+          }));
           return {
             data,
             success: true,
