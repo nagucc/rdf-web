@@ -14,11 +14,6 @@ import { replacePrefixWithIRI } from '@/utils';
 import { ITriple } from 'nagu-triples-types';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 
-type PropertyValueItem = {
-  subject: string,
-  object: string,
-}
-
 type PropertyValuesProps = {
   iri: string,
   prefixTriples: ITriple[],
